@@ -44,17 +44,13 @@ var chartsData = {
 
 const myChart = new Chart(ctx, chartsData);
 
-
 console.log('Hello World!');
 
 var socket = new WebSocket('ws://localhost:8000/ws/charts/')
-//alert(socket)
 
 socket.onmessage = function(e){
     var djangoData = JSON.parse(e.data);
     console.log(djangoData);
-    //alert(djangoData);
-    //alert(djangoData.value);
 
     newChartsData = chartsData.data.datasets[0].data;
     newChartsData.shift();
@@ -62,12 +58,13 @@ socket.onmessage = function(e){
     chartsData.data.datasets[0].data = newChartsData;
     myChart.update()
 
-    h1Element = document.getElementById("app")
+    //h1Element = document.getElementById("app")
+    //if(typeof h1Element !== null && h1Element !== 'undefined' ) {
+    //  document.getElementById("app").innerHTML = djangoData.value;;
+    //}
 
-    //alert(document.getElementById("app"));
-    //alert(document.querySelector('#app'));
-    //document.querySelector('#app').innerText = djangoData.value;
+    h1Element = document.querySelector('#app')
     if(typeof h1Element !== null && h1Element !== 'undefined' ) {
-      document.getElementById("app").innerHTML = djangoData.value;;
+      document.querySelector('#app').innerText = djangoData.value;
     }
 }
