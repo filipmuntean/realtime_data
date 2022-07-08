@@ -6,7 +6,7 @@ var chartsData = {
         labels: ['Visa', 'Master', 'Maestro', 'American Express', 'Cirrus', 'PayPal'],
         datasets: [{
             label: 'No. of Orders',
-            data: [12, 19, 3, 5, 2, 3],
+            data: [0,0,0,0,0,0],
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
@@ -49,13 +49,22 @@ console.log('Hello World!');
 var socket = new WebSocket('ws://localhost:8000/ws/charts/')
 
 socket.onmessage = function(e){
-    var djangoData = JSON.parse(e.data);
-    console.log(djangoData);
+    const djangoData = JSON.parse(e.data);
+    //console.log(djangoData);
 
-    newChartsData = chartsData.data.datasets[0].data;
-    newChartsData.shift();
-    newChartsData.push(djangoData.value);
-    chartsData.data.datasets[0].data = newChartsData;
+    const chartsData = Object.values(djangoData.sales_data);
+    const chartsLabels = Object.values(djangoData.labels);
+    console.log(chartsData);
+    console.log(chartsLabels);
+
+    const n = 5;
+
+    // looping from i = 0 to 5
+    for (let i = 0; i <= n; i++) {
+        myChart.data.labels[i] = chartsLabels[i]
+        myChart.data.datasets[0].data[i] = chartsData[i];
+    }
+
     myChart.update()
 
     //h1Element = document.getElementById("app")
@@ -63,8 +72,8 @@ socket.onmessage = function(e){
     //  document.getElementById("app").innerHTML = djangoData.value;;
     //}
 
-    h1Element = document.querySelector('#app')
-    if(typeof h1Element !== null && h1Element !== 'undefined' ) {
-      document.querySelector('#app').innerText = djangoData.value;
-    }
+    //h1Element = document.querySelector('#app')
+    //if(typeof h1Element !== null && h1Element !== 'undefined' ) {
+    //  document.querySelector('#app').innerText = djangoData.value;
+    //}
 }
