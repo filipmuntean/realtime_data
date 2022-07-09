@@ -10,7 +10,11 @@ from channels.db import database_sync_to_async
 class ChartsConsumer(AsyncWebsocketConsumer):
     @database_sync_to_async
     def get_sales_by_card_type(self):
-        queryset = SalesByCardType.objects.all()
+        max_batch_no = SalesByCardType.objects.values('batch_no').order_by('-batch_no').first()
+        print("Printing max_batch_no: ")
+        print(max_batch_no)
+        print(max_batch_no['batch_no'])
+        queryset = SalesByCardType.objects.all().filter(batch_no=max_batch_no['batch_no'])
 
         labels = []
         sales_data = []
