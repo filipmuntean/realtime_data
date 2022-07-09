@@ -1,4 +1,4 @@
-const ctx = document.getElementById('myChart').getContext('2d');
+const ctx = document.getElementById('myBarChart').getContext('2d');
 
 var chartsData = {
     type: 'bar',
@@ -28,21 +28,25 @@ var chartsData = {
         }]
     },
     options: {
-      scales: {
-          x: {
-          title: {
-            display: true,
-            text: 'Card Type',
-            font: {
-                size: 25
-              }
+        scales: {
+            x: {
+                position: 'bottom',
+                title: {
+                padding: 25,
+                display: true,
+                text: 'Card Type',
+                font: {
+                    size: 25
+                  }
+                }
             }
-          }
-      }
+        }
     }
 }
 
-const myChart = new Chart(ctx, chartsData);
+const myBarChart = new Chart(ctx, chartsData);
+Chart.defaults.font.weight = 'bold';
+Chart.defaults.font.size = 15;
 
 console.log('Hello World!');
 
@@ -61,19 +65,14 @@ socket.onmessage = function(e){
 
     // looping from i = 0 to 5
     for (let i = 0; i <= n; i++) {
-        myChart.data.labels[i] = chartsLabels[i]
-        myChart.data.datasets[0].data[i] = chartsData[i];
+        myBarChart.data.labels[i] = chartsLabels[i]
+        myBarChart.data.datasets[0].data[i] = chartsData[i];
     }
 
-    myChart.update()
+    myBarChart.update()
 
-    //h1Element = document.getElementById("app")
-    //if(typeof h1Element !== null && h1Element !== 'undefined' ) {
-    //  document.getElementById("app").innerHTML = djangoData.value;;
-    //}
-
-    //h1Element = document.querySelector('#app')
-    //if(typeof h1Element !== null && h1Element !== 'undefined' ) {
-    //  document.querySelector('#app').innerText = djangoData.value;
-    //}
+    divElement = document.querySelector('#current_refresh_time')
+    if(typeof divElement !== null && divElement !== 'undefined' ) {
+      document.querySelector('#current_refresh_time').innerText = djangoData.current_refresh_time;
+    }
 }

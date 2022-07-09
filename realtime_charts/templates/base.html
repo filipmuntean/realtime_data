@@ -11,17 +11,40 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js">
     </script>
     <title>Real-Time Charts Application</title>
+
+    <style>
+        /* Header/Logo Title */
+
+        .header {
+            padding: 20px;
+            text-align: center;
+            background: #1abc9c;
+            color: white;
+            font-size: 20px;
+        }
+
+        /* Current Refresh Time */
+        .refresh_time {
+            text-align: center;
+            color: #EA4335;
+            font-weight: bold;
+            font-size: 20px;
+            font-family: Verdana;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
-
+    <div class="header">
+        <h1>Real-Time Sales Dashboard</h1>
+    </div>
+    <div class="refresh_time" id="current_refresh_time">
+        Current Refresh Time:
+    </div>
     <div class="container">
         <div class="row">
-            <div class="col-10 mx-auto mt-5">
-
-                <h1 id="app">{{ text }}</h1>
-                <br/>
-                <canvas id="myChart" width="400" height="200"></canvas>
-
+            <div class="col-12 mx-auto mt-5">
+                <canvas id="myBarChart" width="400" height="200"></canvas>
             </div>
         </div>
     </div>
