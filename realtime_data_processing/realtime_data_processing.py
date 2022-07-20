@@ -4,21 +4,43 @@ from pyspark.sql.types import *
 
 import time
 
-#input_kafka_topic_name = "test-topic"
-input_kafka_topic_name = "order-events"
-output_kafka_topic_name = "output-topic"
-kafka_bootstrap_servers = 'localhost:9092'
+from configparser import ConfigParser
 
-# PostgreSQL Database Server Details
-mysql_host_name = "localhost"
-mysql_port_no = "3306"
-mysql_user_name = "root"
-mysql_password = "datamaking"
-mysql_database_name = "ecom_db"
-mysql_driver = "com.mysql.jdbc.Driver"
+# Loading Kafka Cluster/Server details from configuration file(datamaking_app.conf)
+
+conf_file_path = "/home/datamaking/workarea/code/ecom-real-time-case-study/realtime_data_processing/"
+conf_file_name = conf_file_path + "datamaking_app.conf"
+config_obj = ConfigParser()
+print(config_obj)
+print(config_obj.sections())
+config_read_obj = config_obj.read(conf_file_name)
+print(type(config_read_obj))
+print(config_read_obj)
+print(config_obj.sections())
+
+# Kafka Cluster/Server Details
+kafka_host_name = config_obj.get('kafka', 'host')
+kafka_port_no = config_obj.get('kafka', 'port_no')
+input_kafka_topic_name = config_obj.get('kafka', 'input_topic_name')
+output_kafka_topic_name = config_obj.get('kafka', 'output_topic_name')
+kafka_bootstrap_servers = kafka_host_name + ':' + kafka_port_no
+
+# MySQL Database Server Details
+mysql_host_name = config_obj.get('mysql', 'host')
+mysql_port_no = config_obj.get('mysql', 'port_no')
+mysql_user_name = config_obj.get('mysql', 'username')
+mysql_password = config_obj.get('mysql', 'password')
+mysql_database_name = config_obj.get('mysql', 'db_name')
+mysql_driver = config_obj.get('mysql', 'driver')
+
+mysql_salesbycardtype_table_name = config_obj.get('mysql', 'mysql_salesbycardtype_tbl')
+mysql_salesbycountry_table_name = config_obj.get('mysql', 'mysql_salesbycountry_tbl')
+
 mysql_jdbc_url = "jdbc:mysql://" + mysql_host_name + ":" + mysql_port_no + "/" + mysql_database_name
 # https://mvnrepository.com/artifact/mysql/mysql-connector-java
 # --packages mysql:mysql-connector-java:5.1.49
+
+# spark-submit --master local[*] --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.3.0,mysql:mysql-connector-java:5.1.49 --files /home/datamaking/workarea/code/ecom-real-time-case-study/realtime_data_processing/datamaking_app.conf /home/datamaking/workarea/code/ecom-real-time-case-study/realtime_data_processing/realtime_data_processing.py
 
 #Create the Database properties
 db_properties = {}
@@ -121,13 +143,31 @@ if __name__ == "__main__":
 
     orders_df4.printSchema()
 
-    mysql_table_name = "charts_salesbycardtype"
-
     orders_df4 \
     .writeStream \
     .trigger(processingTime='10 seconds') \
     .outputMode("update") \
-    .foreachBatch(lambda current_df, epoc_id: save_to_mysql_table(current_df, epoc_id, mysql_table_name)) \
+    .foreachBatch(lambda current_df, epoc_id: save_to_mysql_table(current_df, epoc_id, mysql_salesbycardtype_table_name)) \
+    .start()
+
+    # Simple aggregate - find total_sales(sum of order_amount) by order_country_name
+    orders_df5 = orders_df3.groupBy("order_country_name") \
+        .agg({'order_amount': 'sum'}) \
+        .select("order_country_name", col("sum(order_amount)") \
+        .alias("total_sales"))
+
+    print("Printing Schema of orders_df5: ")
+    orders_df5.printSchema()
+
+    orders_df5 = orders_df5.withColumnRenamed("order_country_name","country")
+
+    orders_df5.printSchema()
+
+    orders_df5 \
+    .writeStream \
+    .trigger(processingTime='10 seconds') \
+    .outputMode("update") \
+    .foreachBatch(lambda current_df, epoc_id: save_to_mysql_table(current_df, epoc_id, mysql_salesbycountry_table_name)) \
     .start()
 
     # Write final result into console for debugging purpose

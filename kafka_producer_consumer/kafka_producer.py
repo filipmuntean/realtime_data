@@ -7,9 +7,26 @@ import random
 # pip install kafka-python
 # pip3 install kafka-python
 
-#KAFKA_TOPIC_NAME_CONS = "test-topic"
-KAFKA_TOPIC_NAME_CONS = "order-events"
-KAFKA_BOOTSTRAP_SERVERS_CONS = 'localhost:9092'
+from configparser import ConfigParser
+
+# Loading Kafka Cluster/Server details from configuration file(datamaking_app.conf)
+
+conf_file_name = "datamaking_app.conf"
+config_obj = ConfigParser()
+print(config_obj)
+print(config_obj.sections())
+config_read_obj = config_obj.read(conf_file_name)
+print(type(config_read_obj))
+print(config_read_obj)
+print(config_obj.sections())
+
+# Kafka Cluster/Server Details
+kafka_host_name = config_obj.get('kafka', 'host')
+kafka_port_no = config_obj.get('kafka', 'port_no')
+kafka_topic_name = config_obj.get('kafka', 'input_topic_name')
+
+KAFKA_TOPIC_NAME_CONS = kafka_topic_name
+KAFKA_BOOTSTRAP_SERVERS_CONS = kafka_host_name + ':' + kafka_port_no
 
 # {"order_id": 101, "order_date": "2021-02-06 07:55:00", "order_amount": 100}
 

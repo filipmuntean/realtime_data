@@ -5,7 +5,7 @@ var chartsData = {
     data: {
         labels: ['Visa', 'Master', 'Maestro', 'American Express', 'Cirrus', 'PayPal'],
         datasets: [{
-            label: 'No. of Orders',
+            label: 'Amount ($)',
             data: [0,0,0,0,0,0],
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',

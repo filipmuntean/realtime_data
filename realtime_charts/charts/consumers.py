@@ -37,7 +37,7 @@ class ChartsConsumer(AsyncWebsocketConsumer):
 
         while True:
             charts_data = await self.get_sales_by_card_type()
-            print("charts_data")
-            print(charts_data)
+            #print("charts_data")
+            #print(charts_data)
             await self.send(json.dumps(charts_data))
             await sleep(5)
