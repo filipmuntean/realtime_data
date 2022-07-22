@@ -120,6 +120,13 @@ if __name__ == "__main__":
 
     orders_df3 = orders_df2.select("orders.*", "timestamp")
 
+    print("Printing schema of orders_df3 before creating date & hour column from order_datetime ")
+    orders_df3.printSchema()
+
+    orders_df3 = orders_df3.withColumn("partition_date", to_date("order_datetime"))
+    orders_df3 = orders_df3.withColumn("partition_hour", hour(to_timestamp("order_datetime", 'yyyy-MM-dd HH:mm:ss')))
+
+    print("Printing schema of orders_df3 after creating date & hour column from order_datetime ")
     orders_df3.printSchema()
 
     orders_agg_write_stream_pre = orders_df3 \
@@ -129,6 +136,13 @@ if __name__ == "__main__":
         .option("truncate", "false")\
         .format("console") \
         .start()
+
+    orders_agg_write_stream_pre_hdfs = orders_df3.writeStream \
+    .format("parquet") \
+    .option("path", "/tmp/data/ecom_data/raw") \
+    .option("checkpointLocation", "orders-agg-write-stream-pre-checkpoint") \
+    .partitionBy("partition_date", "partition_hour") \
+    .start()
 
     # Simple aggregate - find total_sales(sum of order_amount) by order_card_type
     orders_df4 = orders_df3.groupBy("order_card_type") \
@@ -179,13 +193,13 @@ if __name__ == "__main__":
         .format("console") \
         .start()
 
+    '''
     kafka_orders_df4 = orders_df4.selectExpr("card_type as key",
                                                  """to_json(named_struct(
                                                  'card_type', card_type,
                                                  'total_sales', total_sales)) as value""")
 
     # kafka_orders_df4 [key, value]
-
     kafka_writer_query = kafka_orders_df4 \
         .writeStream \
         .trigger(processingTime='5 seconds') \
@@ -196,6 +210,7 @@ if __name__ == "__main__":
         .outputMode("update") \
         .option("checkpointLocation", "kafka-check-point-dir") \
         .start()
+    '''
 
     orders_agg_write_stream.awaitTermination()
 
