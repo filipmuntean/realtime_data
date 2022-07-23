@@ -3,7 +3,7 @@ Ecom Real-Time Case Study Project Setup:
 
 Prerequisite
 
-Ubuntu 20.04 with login sudo user name as datamaking
+Ubuntu 20.04 Linux OS with login sudo user name as datamaking (or equivalent user name, change the respective user name in the installation steps if your user name is different)
 Follow these documents to make project environment ready
 1. Install_Python_v1.txt
 2. Install_MySQL_v1.txt
