@@ -53,7 +53,7 @@ After=network.target remote-fs.target
 [Service]
 Type=simple
 User=datamaking
-Environment=JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+Environment=JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 ExecStart=/home/datamaking/workarea/softwares/kafka_2.12-3.2.0/bin/zookeeper-server-start.sh /home/datamaking/workarea/softwares/kafka_2.12-3.2.0/config/zookeeper.properties
 ExecStop=/home/datamaking/workarea/softwares/kafka_2.12-3.2.0/bin/zookeeper-server-stop.sh
 Restart=on-abnormal
@@ -72,7 +72,7 @@ After=zookeeper.service
 [Service]
 Type=simple
 User=datamaking
-Environment=JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+Environment=JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 ExecStart=/bin/sh -c '/home/datamaking/workarea/softwares/kafka_2.12-3.2.0/bin/kafka-server-start.sh /home/datamaking/workarea/softwares/kafka_2.12-3.2.0/config/server.properties > /home/datamaking/workarea/softwares/kafka_2.12-3.2.0/logs/kafka.log 2>&1'
 ExecStop=/home/datamaking/workarea/softwares/kafka_2.12-3.2.0/bin/kafka-server-stop.sh
 Restart=on-abnormal
@@ -88,6 +88,12 @@ sudo systemctl start kafka
 
 
 netstat -an | grep 2181
+
+
+Command 'netstat' not found, but can be installed with:
+
+sudo apt install net-tools
+
 
 netstat -an | grep 9092
 
