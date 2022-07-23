@@ -44,7 +44,7 @@ pip install -r requirements.txt
 
 -------------------------- For your reference starts here -------------------------------------
 
-For now, ignore if you see the following error message pattern,
+For now, ignore if you see the following error message pattern while installing python package mysqlclient,
 
   usage: setup.py [global_opts] cmd1 [cmd1_opts] [cmd2 [cmd2_opts] ...]
      or: setup.py --help [cmd1 cmd2 ...]
@@ -90,3 +90,24 @@ Access Real-Time Dashboard Application using below url,
 
 http://127.0.0.1:8000/
 
+
+Run Kafka Producer Application(Stream data simulator):
+------------------------------------------------------
+
+cd /home/datamaking/workarea/code/course_download/ecom-real-time-case-study/kafka_producer_consumer
+
+pip install -r requirements.txt
+
+python kafka_producer.py
+
+
+Run Data Processing Pipeline application(Spark Streaming):
+----------------------------------------------------------
+
+cd /home/datamaking/workarea/code/course_download/ecom-real-time-case-study/realtime_data_processing
+
+spark-submit --master local[*] --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.3.0,mysql:mysql-connector-java:5.1.49 --files /home/datamaking/workarea/code/course_download/ecom-real-time-case-study/realtime_data_processing/datamaking_app.conf /home/datamaking/workarea/code/course_download/ecom-real-time-case-study/realtime_data_processing/realtime_data_processing.py
+
+Keep monitoring the real-time dashboard using below url,
+
+http://127.0.0.1:8000/
