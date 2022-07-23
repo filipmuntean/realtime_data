@@ -8,7 +8,7 @@ from configparser import ConfigParser
 
 # Loading Kafka Cluster/Server details from configuration file(datamaking_app.conf)
 
-conf_file_path = "/home/datamaking/workarea/code/ecom-real-time-case-study/realtime_data_processing/"
+conf_file_path = "/home/datamaking/workarea/code/course_download/ecom-real-time-case-study/realtime_data_processing/"
 conf_file_name = conf_file_path + "datamaking_app.conf"
 config_obj = ConfigParser()
 print(config_obj)
@@ -40,7 +40,7 @@ mysql_jdbc_url = "jdbc:mysql://" + mysql_host_name + ":" + mysql_port_no + "/" +
 # https://mvnrepository.com/artifact/mysql/mysql-connector-java
 # --packages mysql:mysql-connector-java:5.1.49
 
-# spark-submit --master local[*] --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.3.0,mysql:mysql-connector-java:5.1.49 --files /home/datamaking/workarea/code/ecom-real-time-case-study/realtime_data_processing/datamaking_app.conf /home/datamaking/workarea/code/ecom-real-time-case-study/realtime_data_processing/realtime_data_processing.py
+# spark-submit --master local[*] --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.3.0,mysql:mysql-connector-java:5.1.49 --files /home/datamaking/workarea/code/course_download/ecom-real-time-case-study/realtime_data_processing/datamaking_app.conf /home/datamaking/workarea/code/course_download/ecom-real-time-case-study/realtime_data_processing/realtime_data_processing.py
 
 #Create the Database properties
 db_properties = {}

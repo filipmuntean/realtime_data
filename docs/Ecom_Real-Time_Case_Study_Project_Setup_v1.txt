@@ -1,0 +1,72 @@
+Ecom Real-Time Case Study Project Setup:
+========================================
+
+
+Activate Python Virtual Environment:
+------------------------------------
+
+pwd
+
+ls /home/datamaking/datamaking/
+
+
+source /home/datamaking/datamaking/bin/activate
+
+
+Install dependency Python packages:
+-----------------------------------
+
+cd /home/datamaking/workarea/code/course_download/ecom-real-time-case-study/realtime_charts
+
+
+sudo apt-get install libmysqlclient-dev libssl-dev python3-dev
+
+
+pip install -r requirements.txt
+
+
+-------------------------- For your reference starts here -------------------------------------
+
+For now, ignore if you see the following error message pattern,
+
+  usage: setup.py [global_opts] cmd1 [cmd1_opts] [cmd2 [cmd2_opts] ...]
+     or: setup.py --help [cmd1 cmd2 ...]
+     or: setup.py --help-commands
+     or: setup.py cmd --help
+  
+  error: invalid command 'bdist_wheel'
+  ----------------------------------------
+  ERROR: Failed building wheel for mysqlclient
+  Running setup.py clean for mysqlclient
+Failed to build mysqlclient
+
+-------------------------- For your reference ends here -------------------------------------
+
+
+
+Create MySQL database name: ecom_db
+-----------------------------------
+
+mysql -u root -p
+
+
+create database ecom_db;
+
+show databases;
+
+exit;
+
+
+Run Real-Time Dashboard Application:
+------------------------------------
+
+cd /home/datamaking/workarea/code/course_download/ecom-real-time-case-study/realtime_charts
+
+
+python manage.py runserver
+
+
+Access Real-Time Dashboard Application using below url,
+
+http://127.0.0.1:8000/
+

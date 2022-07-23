@@ -1,2 +1,4 @@
 django
-django-channels
+channels
+channels-redis
+mysqlclient
