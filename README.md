@@ -4,7 +4,7 @@
 
 course_download.zip
 
-**Step 2:** Uncompress the file using unzip utility or any other supporting utility
+**Step 2:** Uncompress the above file using unzip utility or any other supporting utility
 
 unzip course_download.zip
 
