@@ -131,18 +131,19 @@ if __name__ == "__main__":
 
     orders_agg_write_stream_pre = orders_df3 \
         .writeStream \
-        .trigger(processingTime='5 seconds') \
+        .trigger(processingTime='10 seconds') \
         .outputMode("update") \
         .option("truncate", "false")\
         .format("console") \
         .start()
 
     orders_agg_write_stream_pre_hdfs = orders_df3.writeStream \
-    .format("parquet") \
-    .option("path", "/tmp/data/ecom_data/raw") \
-    .option("checkpointLocation", "orders-agg-write-stream-pre-checkpoint") \
-    .partitionBy("partition_date", "partition_hour") \
-    .start()
+        .trigger(processingTime='10 seconds') \
+        .format("parquet") \
+        .option("path", "/tmp/data/ecom_data/raw") \
+        .option("checkpointLocation", "orders-agg-write-stream-pre-checkpoint") \
+        .partitionBy("partition_date", "partition_hour") \
+        .start()
 
     # Simple aggregate - find total_sales(sum of order_amount) by order_card_type
     orders_df4 = orders_df3.groupBy("order_card_type") \
@@ -187,7 +188,7 @@ if __name__ == "__main__":
     # Write final result into console for debugging purpose
     orders_agg_write_stream = orders_df4 \
         .writeStream \
-        .trigger(processingTime='5 seconds') \
+        .trigger(processingTime='10 seconds') \
         .outputMode("update") \
         .option("truncate", "false")\
         .format("console") \
@@ -202,7 +203,7 @@ if __name__ == "__main__":
     # kafka_orders_df4 [key, value]
     kafka_writer_query = kafka_orders_df4 \
         .writeStream \
-        .trigger(processingTime='5 seconds') \
+        .trigger(processingTime='10 seconds') \
         .queryName("Kafka Writer") \
         .format("kafka") \
         .option("kafka.bootstrap.servers", "localhost:9092") \
