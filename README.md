@@ -15,15 +15,15 @@ course_download/ecom-real-time-case-study
 **Step 4:** It will have the following 4 sub folders
 
 course_download/ecom-real-time-case-study/docs
-- Added Ecom Real-Time Case Study Project Setup doc
+- Contains documents for project environment setup and project code setup
 
 course_download/ecom-real-time-case-study/kafka_producer_consumer
-- Updated code with config file and sales by country functionality
-
-course_download/ecom-real-time-case-study/realtime_charts
-- Added Ecom Real-Time Case Study Project Setup doc
+- Simulated Online Orders Data(Sales) which are sent to Kafka Topic at regular interval to act as a stream source
 
 course_download/ecom-real-time-case-study/realtime_data_processing
-- Trigger interval changed
+- Data Processing Pipeline application using Apache Spark(Python and Scala) and Apache Hadoop
+
+course_download/ecom-real-time-case-study/realtime_charts
+- Real-Time Sales Dashboard application using Python Django and Chart.js
 
 **Step 5:** Follow instructions/steps from the file **Ecom_Real-Time_Case_Study_Project_Setup_v1.txt** in the course_download/ecom-real-time-case-study/docs location for project environment setup and project code setup 
