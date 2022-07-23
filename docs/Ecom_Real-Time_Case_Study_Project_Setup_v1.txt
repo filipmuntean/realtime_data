@@ -64,6 +64,9 @@ Failed to build mysqlclient
 Create MySQL database name: ecom_db
 -----------------------------------
 
+MySQL Username: root
+MySQL Password: datamaking
+
 mysql -u root -p
 
 
