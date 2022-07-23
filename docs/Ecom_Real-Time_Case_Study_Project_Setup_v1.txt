@@ -1,6 +1,23 @@
 Ecom Real-Time Case Study Project Setup:
 ========================================
 
+Prerequisite
+
+Ubuntu 20.04 with login sudo user name as datamaking
+Follow these documents to make project environment ready
+1. Install_Python_v1.txt
+2. Install_MySQL_v1.txt
+3. Install_Apache_Hadoop_3_v1.txt
+4. Install_Apache_Spark_3_v1.txt
+5. Install_Apache_Kafka_v1.txt
+
+OR 
+
+You can download our pre-built virtual machine(VM) which above technologies pre-installed
+Google Drive Link: https://drive.google.com/drive/folders/1s9sRbnbeGLQW5DwZDkV0spY4Am4FheET?usp=sharing
+Username: datamaking
+Password: datamaking
+
 
 Activate Python Virtual Environment:
 ------------------------------------
